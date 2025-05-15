@@ -17,11 +17,12 @@ class UserController extends Controller
      */
     public function index()
     {
-        // $members = User:: with('personne', 'profile','ratings')->role(['candidate', 'employee'])->paginate(20);
-        $members = User:: with('personne', 'profile','ratings')->role(['candidate'])->paginate(20);
+        $members = User:: with('personne', 'profile','ratings', 'jobuser')->role(['candidate', 'employee'])->paginate(20);
+        // $members = User::with('personne', 'profile','ratings', 'jobuser')->role(['candidate', 'employee'])->get();
         $jobs = Job::where('is_open', true)->get();
-        
+
         // dd($members);
+        
         return view('member.index', [
             'members' => $members,
             'jobs' => $jobs
@@ -65,11 +66,9 @@ class UserController extends Controller
      */
     public function show(string $id) //: View
     {
-        $user = User::with('personne', 'profile')->findOrFail($id);
+        $user = User::with('personne', 'profile', 'candidate')->findOrFail($id);
         $minutes = 5;
-        views($user)
-            ->cooldown($minutes)
-            ->record();
+        views($user)->cooldown($minutes)->record();
         $view = views($user)->count();
         return view('member.show', [
             'user' => $user,

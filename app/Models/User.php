@@ -32,72 +32,19 @@ class User extends Authenticatable implements ReviewRateable, Viewable
     use HasRoles, SoftDeletes;
     use InteractsWithViews;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'name', 'email', 'password',
-    ];
-
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
+        'remember_token'
+    ];
+
+    protected $fillable = [
+        'name',
+        'email',
+        'email_verified_at',
+        'password',
         'remember_token',
-        'two_factor_recovery_codes',
-        'two_factor_secret',
+        'role',
+        'avatar',
+        'is_active'
     ];
-
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
-
-    /**
-     * The accessors to append to the model's array form.
-     *
-     * @var array<int, string>
-     */
-    protected $appends = [
-        'profile_photo_url',
-    ];
-
-    public function customer(): HasOne
-    {
-        return $this->hasOne(Client::class);
-    }
-
-    public function personne(): HasOne
-    {
-        return $this->hasOne(Personne::class);
-    }
-
-    public function profile(): HasOne
-    {
-        return $this->hasOne(Profile::class);
-    }
-
-    public function skills(): HasMany
-    {
-        return $this->hasMany(Skill::class);
-    }
-
-    public function ratings(): HasOne
-    {
-        return $this->hasOne(AccountRating::class);
-    }
-
-    public function getIsEmployeeAttribute()
-    {
-        return $this->hasRole('employee');
-    }
 }

@@ -27,8 +27,9 @@ class JobController extends Controller
     public function create()
     {
         $jobs = Job::where('is_open', true)->get();
-        $hireds = JobUser::where('is_active', true)->with('user', 'job')->get();
-        $users = User:: with('personne', 'profile')->role(['candidate', 'employee'])->get();
+        $hireds = JobUser::where('is_active', true)->with('user', 'job')->where('client_approved_at', '!=', null)->get();
+        $users = User:: with('personne', 'profile')->get();
+        // dd($users);
         return view('job.add',[
             'jobs' => $jobs,
             'hireds' => $hireds,
@@ -41,14 +42,21 @@ class JobController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
-        // dd($request->job);
         $user = User::findOrFail($request->user);
         $job = Job::findOrFail($request->job);
         $hired = JobUser::where('user_id', $user->id)->where('job_id', $job->id)->first();
+        
+        // $user->syncRoles(['employee']);
         if ($hired) {
-            return redirect()->route('jobs.show', $job->matricule);
+            $hiring = $hired->update([
+                'job_id' => $job->id,
+                'is_active' => true,
+            ]);
+            return redirect()->back()->with('success', 'Candidat récommandé avec succès !');
         }
+
+        // dd($request->all());
+        
         try {
             $hiring = JobUser::create([
                 'user_id' => $user->id,
@@ -57,16 +65,27 @@ class JobController extends Controller
                 'matricule' => uniqid(),
             ]);
             
-            // Changer le rôle de l'utilisateur
-            $newRole = 'employee'; // Remplacez 'new_role' par le nom du rôle que vous souhaitez attribuer
-            $user->syncRoles([$newRole]);
-            
-            return redirect()->route('jobs.show', ['matricule' => $job->matricule, 'fragment' => 'projectsTabs']);
+            return redirect()->back()->with('success', 'Candidat récommandé avec succès !');
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', $th->getMessage());
         }
         
     }
+
+    public function cancel(Request $request)
+    {
+        $user = User::findOrFail($request->user);
+        $job = Job::findOrFail($request->job);
+        $hired = JobUser::where('user_id', $user->id)->where('job_id', $job->id)->first();
+        if ($hired) {
+            $hired->update([
+                'job_id' => $job->id,
+                'is_active' => false,
+            ]);
+            return redirect()->back()->with('success', 'Récommandation annulée avec succès !');
+        }
+    }
+
 
     /**
      * Display the specified resource.
@@ -74,13 +93,12 @@ class JobController extends Controller
     public function show(string $matricule)
     {
         $job = Job::with('user', 'candidates')-> where('matricule', $matricule)->firstOrFail();
-        $matchingUsers = $job->findMatchingUsers();
+        // $matchingUsers = $job->findMatchingUsers();
         $minutes = 5;
-        $view = views($job)->cooldown($minutes)
-            ->record();
+        $view = views($job)->cooldown($minutes)->record();
         return view('job.show',[
             'job' => $job,
-            'matchingUsers' => $matchingUsers,
+            // 'matchingUsers' => $matchingUsers,
             'view' => $view
         ]);
     }
@@ -125,7 +143,10 @@ class JobController extends Controller
     {
         try {
             $candidate = JobUser::findOrFail($id);
-            $candidate->delete();
+            $candidate->update([
+                'client_approved_at' => null,
+                'client_rejected_at' => null,
+            ]);
             return redirect()->route('jobs.show', $candidate->job->matricule);
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', $th->getMessage());

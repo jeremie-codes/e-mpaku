@@ -89,7 +89,7 @@
                             id="dropdownMenuButton" data-bs-toggle="dropdown">
                             @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
                                 <div class="bg-pink-100 rounded-full">
-                                    <img src="{{ Auth::user()->profile_photo_url }}" alt=""
+                                    <img src="{{ asset('storage/' . Auth::user()->profile_photo_path) }}" alt=""
                                         class="w-[37.5px] h-[37.5px] rounded-full">
                                 </div>
                             @else
@@ -103,7 +103,7 @@
                                 @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
                                     <div class="relative inline-block shrink-0">
                                         <div class="rounded bg-slate-100 dark:bg-zink-500">
-                                            <img src="{{ Auth::user()->profile_photo_url }}"
+                                            <img src="{{ asset('storage/' . Auth::user()->profile_photo_path) }}"
                                                 alt="{{ Auth::user()->name }}" class="w-12 h-12 rounded">
                                         </div>
                                         <span

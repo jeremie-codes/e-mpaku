@@ -34,11 +34,11 @@ class AdminController extends Controller
         /**
      * Store a newly created resource in storage.
      */
-    public function removecategory(Request $request)
+    public function removecategory($id)
     {
         try {
             // Récupérer l'instance de la catégorie
-            $category = Category::findOrFail($request->id);
+            $category = Category::findOrFail($id);
             
             // Supprimer la catégorie
             $category->delete();
@@ -65,6 +65,37 @@ class AdminController extends Controller
             return redirect()->route('admin.category')->with('success', 'Category created successfully');
         } catch (\Throwable $th) {
             return redirect()->route('admin.category')->with('error', 'Category creation failed');
+        }
+        
+    }
+
+        /**
+     * Store a newly created resource in storage.
+     */
+    public function editcategory(Request $request)
+    {
+
+        // dd($request->all());
+        
+        $category = Category::findOrFail($request->id);
+
+        $categoryData = $request->only([
+            'nom', 'postNom', 'prenom', 'dateNaissance', 'sexe', 'nationalite', 'adresse', 'codePostal', 'ville', 'telephone'
+        ]);
+
+        $categoryData = array_filter($categoryData, function($value) {
+            return !is_null($value) && $value !== '';
+        });
+        
+        try {
+            $categorys = $category->update([
+                'name' => $request->name,
+                'slug' => Str::slug($request->name),
+                'description' => $request->description,
+            ]);
+            return redirect()->route('admin.category')->with('success', 'Category edit successfully');
+        } catch (\Throwable $th) {
+            return redirect()->route('admin.category')->with('error', 'Category edition failed');
         }
         
     }
