@@ -69,9 +69,6 @@
                                 <x-application-logo />
                             </a>
                         </div>
-                        <div class="shrink-0">
-                            <x-language />
-                        </div>
                     </div>
                     <div class="mt-auto">
                         <img src="{{ URL::asset('build/images/auth/img-01.png') }}" alt=""
