@@ -93,7 +93,7 @@
                                             @click.prevent="$root.submit();">
                                             <i data-lucide="log-out"
                                                 class="inline-block size-4 ltr:mr-2 rtl:ml-2"></i>
-                                            {{ __('Sign Out') }}
+                                            {{ __('Deconnexion') }}
                                         </a>
                                     </form>
                                 </li>
