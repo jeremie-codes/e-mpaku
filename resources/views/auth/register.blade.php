@@ -18,16 +18,10 @@
                         <form method="POST" action="{{ route('register') }}" class="mt-10">
                             @csrf
                             <div class="mb-3">
-                                <x-label for="firstname" value="{{ __('Name') }}" />
-                                <x-input id="firstname" type="text" firstname="firstname" :value="old('firstname')" required autofocus
-                                    autocomplete="firstname" placeholder="Enter firstname" />
-                                <x-input-error for="firstname" />
-                            </div>
-                            <div class="mb-3">
-                                <x-label for="lastname" value="{{ __('Name') }}" />
-                                <x-input id="lastname" type="text" name="lastname" :value="old('lastname')" required autofocus
-                                    autocomplete="lastname" placeholder="Enter lastname" />
-                                <x-input-error for="lastname" />
+                                <x-label for="name" value="{{ __('Name') }}" />
+                                <x-input id="name" type="text" name="name" :value="old('name')" required autofocus
+                                    autocomplete="name" placeholder="Enter name" />
+                                <x-input-error for="name" />
                             </div>
                             <div class="mb-3">
                                 <x-label for="email" value="{{ __('Email') }}" />
