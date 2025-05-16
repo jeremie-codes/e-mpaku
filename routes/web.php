@@ -25,6 +25,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     Route::resource('members', MembreController::class);
     Route::resource('paiements', PaiementController::class);
     Route::get('/search-membre', [PaiementController::class, 'search'])->name('membre.search');
+    Route::get('/admin/register', [RouteController::class, 'register'])->name('admin.register');
+    Route::post('/admin/store', [RouteController::class, 'store'])->name('admin.store');
     Route::get("{any}", [RouteController::class, 'routes']);
 });
 

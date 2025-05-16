@@ -24,6 +24,14 @@ class RouteController extends Controller
         ]);
     }
     
+    public function register(Request $request) {
+        return view('profile.register');
+    }
+    
+    public function store(Request $request) {
+        dd($request->all());
+        return view('profile.register');
+    }
 
     public function routes(Request $request) {
         if(view()->exists($request->path())) {
@@ -32,4 +40,5 @@ class RouteController extends Controller
             return abort(404);
         }
     }
+
 }
