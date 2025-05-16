@@ -52,7 +52,7 @@
                             id="dropdownMenuButton" data-bs-toggle="dropdown">
                             @if(Auth::user()->profile_photo_path === "" || Auth::user()->profile_photo_path === null )
                                 <div class="bg-pink-100 rounded-full">
-                                    <img src="{{ URL::asset('build/images/users/avatar-1.png') }}" alt="" class="w-[37.5px] h-[37.5px] rounded-full">
+                                    <img src="{{ URL::asset('build/images/users/avatar-9.png') }}" alt="" class="w-[37.5px] h-[37.5px] rounded-full">
                                 </div>
                             @else
                                 <div class="bg-pink-100 rounded-full">
@@ -65,7 +65,7 @@
                             <a href="#!" class="flex gap-3 mb-3">
                                 @if(Auth::user()->profile_photo_path === "" || Auth::user()->profile_photo_path === null )
                                     <div class="bg-pink-100 rounded">
-                                        <img src="{{ URL::asset('build/images/users/avatar-1.png') }}" alt="" class="w-12 h-12 rounded">
+                                        <img src="{{ URL::asset('build/images/users/avatar-9.png') }}" alt="" class="w-12 h-12 rounded">
                                     </div>
                                 @else
                                     <div class="bg-pink-100 rounded">
