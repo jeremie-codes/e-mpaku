@@ -50,27 +50,26 @@
                         <button type="button"
                             class="inline-block p-0 transition-all duration-200 ease-linear bg-topbar rounded-full text-topbar-item dropdown-toggle btn hover:bg-topbar-item-bg-hover hover:text-topbar-item-hover group-data-[topbar=dark]:text-topbar-item-dark group-data-[topbar=dark]:bg-topbar-dark group-data-[topbar=dark]:hover:bg-topbar-item-bg-hover-dark group-data-[topbar=dark]:hover:text-topbar-item-hover-dark group-data-[topbar=brand]:bg-topbar-brand group-data-[topbar=brand]:hover:bg-topbar-item-bg-hover-brand group-data-[topbar=brand]:hover:text-topbar-item-hover-brand group-data-[topbar=dark]:dark:bg-zink-700 group-data-[topbar=dark]:dark:hover:bg-zink-600 group-data-[topbar=brand]:text-topbar-item-brand group-data-[topbar=dark]:dark:hover:text-zink-50 group-data-[topbar=dark]:dark:text-zink-200"
                             id="dropdownMenuButton" data-bs-toggle="dropdown">
-                            @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
+                            @if(Auth::user()->profile_photo_path === "" || Auth::user()->profile_photo_path === null )
                                 <div class="bg-pink-100 rounded-full">
-                                    <img src="{{ asset('storage/' . Auth::user()->profile_photo_path) }}" alt=""
-                                        class="w-[37.5px] h-[37.5px] rounded-full">
+                                    <img src="{{ URL::asset('build/images/users/avatar-1.png') }}" alt="" class="w-[37.5px] h-[37.5px] rounded-full">
                                 </div>
                             @else
-                                <i data-lucide="user-2"
-                                    class="inline-block w-5 h-5 stroke-1 fill-slate-100 group-data-[topbar=dark]:fill-topbar-item-bg-hover-dark group-data-[topbar=brand]:fill-topbar-item-bg-hover-brand"></i>
+                                <div class="bg-pink-100 rounded-full">
+                                    <img src="{{ asset('storage/' . Auth::user()->profile_photo_path ) }}" alt="" class="w-[37.5px] h-[37.5px] rounded-full">
+                                </div>
                             @endif
                         </button>
                         <div class="absolute z-50 hidden p-4 ltr:text-left rtl:text-right bg-white rounded-md shadow-md !top-4 dropdown-menu min-w-[14rem] dark:bg-zink-600"
                             aria-labelledby="dropdownMenuButton">
                             <a href="#!" class="flex gap-3 mb-3">
-                                @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
-                                    <div class="relative inline-block shrink-0">
-                                        <div class="rounded bg-slate-100 dark:bg-zink-500">
-                                            <img src="{{ asset('storage/' . Auth::user()->profile_photo_path) }}"
-                                                alt="{{ Auth::user()->name }}" class="w-12 h-12 rounded">
-                                        </div>
-                                        <span
-                                            class="-top-1 ltr:-right-1 rtl:-left-1 absolute w-2.5 h-2.5 bg-green-400 border-2 border-white rounded-full dark:border-zink-600"></span>
+                                @if(Auth::user()->profile_photo_path === "" || Auth::user()->profile_photo_path === null )
+                                    <div class="bg-pink-100 rounded">
+                                        <img src="{{ URL::asset('build/images/users/avatar-1.png') }}" alt="" class="w-12 h-12 rounded">
+                                    </div>
+                                @else
+                                    <div class="bg-pink-100 rounded">
+                                        <img src="{{ asset('storage/' . Auth::user()->profile_photo_path ) }}" alt="" class="w-12 h-12 rounded">
                                     </div>
                                 @endif
                                 <div>
