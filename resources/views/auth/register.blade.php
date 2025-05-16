@@ -18,10 +18,16 @@
                         <form method="POST" action="{{ route('register') }}" class="mt-10">
                             @csrf
                             <div class="mb-3">
-                                <x-label for="name" value="{{ __('Name') }}" />
-                                <x-input id="name" type="text" name="name" :value="old('name')" required autofocus
-                                    autocomplete="name" placeholder="Enter name" />
-                                <x-input-error for="name" />
+                                <x-label for="firstname" value="{{ __('Name') }}" />
+                                <x-input id="firstname" type="text" firstname="firstname" :value="old('firstname')" required autofocus
+                                    autocomplete="firstname" placeholder="Enter firstname" />
+                                <x-input-error for="firstname" />
+                            </div>
+                            <div class="mb-3">
+                                <x-label for="lastname" value="{{ __('Name') }}" />
+                                <x-input id="lastname" type="text" name="lastname" :value="old('lastname')" required autofocus
+                                    autocomplete="lastname" placeholder="Enter lastname" />
+                                <x-input-error for="lastname" />
                             </div>
                             <div class="mb-3">
                                 <x-label for="email" value="{{ __('Email') }}" />
@@ -40,32 +46,6 @@
                                 <x-input id="password_confirmation" type="password" name="password_confirmation" required
                                     autocomplete="new-password" placeholder="Enter confirm password" />
                             </div>
-                            @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
-                                <div class="mt-4">
-                                    <label for="terms">
-                                        <div class="flex items-center">
-                                            <x-checkbox name="terms" id="terms" required />
-
-                                            <div class="ms-2">
-                                                {!! __('I agree to the :terms_of_service and :privacy_policy', [
-                                                    'terms_of_service' =>
-                                                        '<a target="_blank" href="' .
-                                                        route('terms.show') .
-                                                        '" class="underline text-sm text-gray-600 dark:text-slate-400 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">' .
-                                                        __('Terms of Service') .
-                                                        '</a>',
-                                                    'privacy_policy' =>
-                                                        '<a target="_blank" href="' .
-                                                        route('policy.show') .
-                                                        '" class="underline text-sm text-gray-600 dark:text-slate-400 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">' .
-                                                        __('Privacy Policy') .
-                                                        '</a>',
-                                                ]) !!}
-                                            </div>
-                                        </div>
-                                    </label>
-                                </div>
-                            @endif
                             <div class="mt-5">
                                 <button type="submit"
                                     class="w-full text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20">Sign
@@ -77,15 +57,6 @@
                             <h5
                                 class="inline-block px-4 py-0.5 text-sm bg-white text-slate-500 dark:bg-zink-700 dark:text-zink-200 rounded relative">
                                 Create account with</h5>
-                        </div>
-
-                        <x-social-login />
-
-                        <div class="mt-10 text-center">
-                            <p class="mb-0 text-slate-500 dark:text-zink-200">Already have an account ? <a
-                                    href="{{ route('login') }}"
-                                    class="font-semibold underline transition-all duration-150 ease-linear text-slate-500 dark:text-zink-200 hover:text-custom-500 dark:hover:text-custom-500">Login</a>
-                            </p>
                         </div>
                     </div>
                 </div>
