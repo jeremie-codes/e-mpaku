@@ -49,26 +49,22 @@
     <div class="card" id="productListTable">
         <div class="card-body">
             <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-12">
-                <div class="xl:col-span-3">
+     
+                <div class="lg:col-span-3 ltr:lg:text-right rtl:lg:text-left xl:col-span-3 xl:col-start-11">
                     <div class="relative">
                         <input type="text"
                             class="ltr:pl-8 rtl:pr-8 search form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200"
-                            placeholder="Search for ..." autocomplete="off">
+                            placeholder="Recherche dans la liste ..." autocomplete="off">
                         <i data-lucide="search"
                             class="inline-block size-4 absolute ltr:left-2.5 rtl:right-2.5 top-2.5 text-slate-500 dark:text-zink-200 fill-slate-100 dark:fill-zink-600"></i>
                     </div>
-                </div><!--end col-->
-                <div class="lg:col-span-3 ltr:lg:text-right rtl:lg:text-left xl:col-span-3 xl:col-start-11">
-                    <a href="#!" data-modal-target="addMemberModal" type="button"
-                        class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20 add-employee"><i
-                            data-lucide="plus" class="inline-block size-4"></i> <span class="align-middle">Ajouter un membre</span></a>
                 </div>
             </div><!--end grid-->
         </div>
 
         <div class="!pt-1 card-body">
             <div class="overflow-x-auto">
-                <table class="w-full whitespace-nowrap" id="productTable">
+                <table class="w-full whitespace-nowrap">
                     <thead class="ltr:text-left rtl:text-right bg-slate-100 dark:bg-zink-600">
                         <tr>
                             <th class="px-3.5 py-2.5 font-semibold border-b border-slate-200 dark:border-zink-500 sort product_code"
@@ -83,7 +79,7 @@
                         </tr>
                     </thead>
                     <tbody class="list">
-                       @foreach ($paiements as $paiement)
+                        @foreach ($paiements as $paiement)
                             <tr>
                                 <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">
                                     <a href="#!" data-modal-target="overviewMember{{ $paiement->id }}"
@@ -92,7 +88,7 @@
                                 <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 product_name">
                                     <a href="#!" data-modal-target="overviewMember{{ $paiement->id }}" class="flex items-center gap-3">
                                         <div class="size-6 rounded-full shrink-0 bg-slate-100">
-                                            <img src="{{ $paiement->profile_photo_path ? URL::asset('storage/' . $paiement->profile_photo_path ): URL::asset('build/images/users/avatar-1.png') }}" alt=""
+                                            <img src="{{ $paiement->membre->profile_photo_path ? URL::asset('storage/' . $paiement->membre->profile_photo_path ): URL::asset('build/images/users/avatar-1.png') }}" alt=""
                                                 class="h-6 rounded-full">
                                         </div>
                                         <h6 class="grow">{{ $paiement->membre->firstname }} {{ $paiement->membre->lastname }}</h6>
@@ -102,9 +98,6 @@
                                 <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 status">{{ \Carbon\Carbon::parse($paiement->created_at)->locale('fr')->translatedFormat('d M Y') }}</td>
                                 <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 action">
                                 <div class="flex gap-3">
-                                        <a class="flex items-center justify-center size-8 transition-all duration-200 ease-linear rounded-md bg-slate-100 text-slate-500 hover:text-custom-500 hover:bg-custom-100 dark:bg-zink-600 dark:text-zink-200 dark:hover:bg-custom-500/20 dark:hover:text-custom-500"
-                                            href="#!" data-modal-target="overviewMember{{ $paiement->id }}"><i data-lucide="eye"
-                                                class="inline-block size-3"></i> </a>
                                         <a href="#!" data-modal-target="editMemberModal{{ $paiement->id }}"
                                             class="flex items-center justify-center size-8 transition-all duration-200 ease-linear rounded-md edit-item-btn bg-slate-100 text-slate-500 hover:text-custom-500 hover:bg-custom-100 dark:bg-zink-600 dark:text-zink-200 dark:hover:bg-custom-500/20 dark:hover:text-custom-500"><i
                                                 data-lucide="pencil" class="size-4"></i></a>
@@ -114,40 +107,6 @@
                                     </div>
                                 </td>
                             </tr>
-
-                            {{-- Overview Member modal--}}
-                            <div id="overviewMember{{ $paiement->id }}" modal-center
-                                class="fixed flex flex-col hidden transition-all duration-300 ease-in-out left-2/4 z-drawer -translate-x-2/4 -translate-y-2/4 show">
-                                <div class="w-screen md:w-[25rem] bg-white shadow rounded-md dark:bg-zink-600">
-                                    <div class="max-h-[calc(theme('height.screen')_-_180px)] overflow-y-auto px-6 py-8">
-                                        <div class="float-right">
-                                            <button data-modal-close="overviewMember{{ $paiement->id }}"
-                                                class="transition-all duration-200 ease-linear text-slate-500 hover:text-red-500"><i
-                                                    data-lucide="x" class="size-5"></i></button>
-                                        </div>
-
-                                        <div
-                                            class="relative flex items-center justify-center size-24 mx-auto text-lg rounded-full bg-slate-100 dark:bg-zink-600">
-                                            <img src="{{ $paiement->profile_photo_path ? URL::asset('storage/' . $paiement->profile_photo_path ): URL::asset('build/images/users/avatar-1.png') }}" alt=""
-                                                class="size-24 rounded-full">
-                                            <span
-                                                class="absolute size-3 bg-green-400 border-2 border-white rounded-full dark:border-zink-700 bottom-1 ltr:right-1 rtl:left-1"></span>
-                                        </div>
-                                        <div class="mt-4 text-center">
-                                            <h5 class="mb-1 text-16"><a href="{{ url('pages-account') }}">{{ $paiement->fisrtname }} {{ $paiement->lastname }}</a></h5>
-                                            <p class="mb-3 text-slate-500 dark:text-zink-200">{{ $paiement->ref }}, {{ $paiement->sec_ref }}</p>
-                                            <p class="text-slate-500 dark:text-zink-200">
-                                                <i data-lucide="user" class="size-4"></i>{{ $paiement->commune }}</p>
-                                        </div>
-                                        <div class="flex gap-2 mt-5">
-                                            <a href="{{ url('apps-chat') }}"
-                                                class="bg-white text-custom-500 btn border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:bg-zink-700 dark:hover:bg-custom-500 dark:ring-custom-400/20 dark:focus:bg-custom-500 grow"><i
-                                                    data-lucide="wallet" class="inline-block size-4 ltr:mr-1 rtl:ml-1"></i> <span
-                                                    class="align-middle">Insérer le paiement</span></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div><!--end delete modal-->
 
                             {{-- Delete Member modal --}}
                             <div id="deleteModal{{ $paiement->id }}" modal-center
@@ -163,7 +122,7 @@
                                         <div class="mt-5 text-center">
                                             <h5 class="mb-1">Êtes-vous sûre?</h5>
                                             <p class="text-slate-500 dark:text-zink-200">Vous êtes sur le point de supprimer ce membre!</p>
-                                            <form action="{{ route('members.destroy', $paiement->id) }}" method="post" class="flex justify-center gap-2 mt-6">
+                                            <form action="{{ route('paiements.destroy', $paiement->id) }}" method="post" class="flex justify-center gap-2 mt-6">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="reset" data-modal-close="deleteModal{{ $paiement->id }}"
@@ -188,58 +147,15 @@
                                                 class="size-5"></i></button>
                                     </div>
                                     <div class="max-h-[calc(theme('height.screen')_-_180px)] p-4 overflow-y-auto">
-                                        <form class="create-form" action="{{ route('members.store') }}" id="create-form" enctype="multipart/form-data" method="POST">
+                                        <form class="create-form" action="{{ route('paiements.store') }}" id="create-form" enctype="multipart/form-data" method="POST">
                                             @csrf
                                             <input type="hidden" value="{{ $paiement->id }}" name="id" id="id">
                                             <div class="grid grid-cols-1 gap-4 xl:grid-cols-12">
                                                 <div class="xl:col-span-12">
-                                                    <div
-                                                        class="relative size-24 mx-auto mb0 rounded-full shadow-md bg-slate-100 profile-user dark:bg-zink-500">
-                                                        <img src="{{ $paiement->profile_photo_path ? URL::asset('storage/' . $paiement->profile_photo_path) :
-                                                            URL::asset('build/images/users/user-dummy-img.jpg') }}" alt=""
-                                                            class="object-cover w-full h-full rounded-full user-profile-image">
-                                                        <div
-                                                            class="absolute bottom-0 flex items-center justify-center size-8 rounded-full ltr:right-0 rtl:left-0 profile-photo-edit">
-                                                            <input id="profile-img" name="profile-img" type="file"
-                                                                class="hidden profile-img">
-                                                            <label for="profile-img"
-                                                                class="flex items-center justify-center size-8 bg-white rounded-full shadow-lg cursor-pointer dark:bg-zink-600 profile-photo-edit">
-                                                                <i data-lucide="image-plus"
-                                                                    class="size-4 text-slate-500 fill-slate-200 dark:text-zink-200 dark:fill-zink-500"></i>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="xl:col-span-12">
-                                                    <label for="ref" class="inline-block mb0 text-base font-medium">Référence Member</label>
-                                                    <input type="text" id="ref" name="ref"
+                                                    <label for="montant" class="inline-block mb0 text-base font-medium">Référence Member</label>
+                                                    <input type="text" id="montant" name="montant"
                                                         class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200"
-                                                        value="{{ $paiement->ref }}" required>
-                                                </div>
-
-                                                <div class="xl:col-span-12">
-                                                    <label for="sec_ref" class="inline-block mb0 text-base font-medium">Référence sécondaire(optionnal)</label>
-                                                    <input type="text" id="sec_ref" name="sec_ref"
-                                                        class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200"
-                                                        value="{{ $paiement->sec_ref }}" required>
-                                                </div>
-                                                <div class="xl:col-span-12">
-                                                    <label for="firstname" class="inline-block mb0 text-base font-medium">Nom</label>
-                                                    <input type="text" id="firstname" name="firstname"
-                                                        class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200"
-                                                        placeholder="Nom du menbre" value="{{ $paiement->firstname }}" required>
-                                                </div>
-                                                <div class="xl:col-span-12">
-                                                    <label for="lastname" class="inline-block mb0 text-base font-medium">PostNom</label>
-                                                    <input type="text" id="lastname" name="lastname"
-                                                        class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200"
-                                                        placeholder="Postnom du mebre" value="{{ $paiement->lastname }}" require >
-                                                </div>
-                                                <div class="xl:col-span-12">
-                                                    <label for="commune" class="inline-block mb0 text-base font-medium">Commune</label>
-                                                    <input type="text" id="commune" name="commune"
-                                                        class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200"
-                                                        placeholder="Localisation" required value="{{ $paiement->commune }}">
+                                                        value="{{ $paiement->montant }}" required>
                                                 </div>
                                             </div>
 
@@ -249,7 +165,7 @@
                                                     class="text-red-500 bg-white btn hover:text-red-500 hover:bg-red-100 focus:text-red-500 focus:bg-red-100 active:text-red-500 active:bg-red-100 dark:bg-zink-600 dark:hover:bg-red-500/10 dark:focus:bg-red-500/10 dark:active:bg-red-500/10">Annuler</button>
                                                 <button type="submit" id="addNew"
                                                     class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20 ">
-                                                    Ajouter le membre
+                                                    Valider
                                                 </button>
                                             </div>
                                         </form>
@@ -305,7 +221,7 @@
     <script src="{{ URL::asset('build/libs/list.js/list.js') }}"></script>
     <script src="{{ URL::asset('build/libs/list.pagination.js/list.pagination.min.js') }}"></script>
 
-    <script src="{{ URL::asset('build/js/pages/apps-ecommerce-product.init.js') }}"></script>
+    {{-- <script src="{{ URL::asset('build/js/pages/apps-ecommerce-product.init.js') }}"></script> --}}
     <script src="{{ URL::asset('build/js/pages/apps-hr-employee.init.js') }}"></script>
 
     <!-- App js -->

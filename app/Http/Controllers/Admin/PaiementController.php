@@ -67,8 +67,28 @@ class PaiementController extends Controller
      */
     public function store(Request $request)
     {
+        $paiementexisted = null;
+        
+        if($request->id) {
+            $paiementexisted = Paiement::findOrFail($request->id);
 
-        // dd($request->all());
+            try {
+                // Valider les données de base
+                $validated = $request->validate([
+                    'montant' => 'required|numeric',
+                ]);
+
+                // Création du membre
+                $paiementexisted->update([
+                    'montant' => $validated['montant'],
+                ]);
+
+                return redirect()->back()->with('success', 'Mise à jour effectué avec succès.');
+            } catch (\Throwable $th) {
+                return redirect()->back()->with('error', 'Erreur lors de la mise à jour : ' . $th->getMessage());
+            }
+        }
+
         try {
             // Valider les données de base
             $validated = $request->validate([

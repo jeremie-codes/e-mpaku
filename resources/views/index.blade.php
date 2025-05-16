@@ -14,7 +14,7 @@
                     <div
                         class="relative inline-block size-20 rounded-full shadow-md bg-slate-100 profile-user xl:size-28">
                         <img src="{{ $user->profile_photo_path ? URL::asset('storage/' . $user->profile_photo_path ): URL::asset('build/images/users/avatar-9.png') }}" alt=""
-                            class="object-cover border-0 rounded-full img-thumbnail user-profile-image">
+                            class="object-cover w-full h-full border-0 rounded-full img-thumbnail user-profile-image">
                     </div>
                 </div>
                 <div class="lg:col-span-10 2xl:col-span-9">
