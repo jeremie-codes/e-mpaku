@@ -1,4 +1,4 @@
-@extends('admin.layouts.master-without-nav')
+@extends('layouts.master-without-nav')
 @section('title')
     {{ __('t-register') }}
 @endsection
