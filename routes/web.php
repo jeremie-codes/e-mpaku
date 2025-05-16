@@ -1,12 +1,8 @@
 <?php
 
 use App\Http\Controllers\RouteController;
-use App\Http\Controllers\TailwickController;
-use App\Http\Controllers\Web\AdminController;
-use App\Http\Controllers\Web\ClientController;
-use App\Http\Controllers\Web\JobController;
-use App\Http\Controllers\Web\ProspetController;
-use App\Http\Controllers\Web\UserController;
+use App\Http\Controllers\Admin\MembreController;
+use App\Http\Controllers\Admin\PaiementController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,8 +21,10 @@ Route::get('/access-denied', function () {
 })->name('access-denied');
 
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', 'admin'])->group(function () {
-    Route::resource('customers', ClientController::class);
     Route::get("/", [RouteController::class, 'index'])->name('dashboard');
+    Route::resource('members', MembreController::class);
+    Route::resource('paiements', PaiementController::class);
+    Route::get('/search-membre', [PaiementController::class, 'search'])->name('membre.search');
     Route::get("{any}", [RouteController::class, 'routes']);
 });
 

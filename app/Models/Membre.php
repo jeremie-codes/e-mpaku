@@ -14,6 +14,7 @@ class Membre extends Model
         'firstname',
         'lastname',
         'commune',
+        'profile_photo_path',
     ];
 
     public function paiement()

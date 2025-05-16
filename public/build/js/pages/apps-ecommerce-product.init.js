@@ -52,52 +52,52 @@ function eventListenerDropdown1(event, subitem, item, place) {
         event.stopPropagation();
     }
 }
-// manage dropdown-menu
-function dismissDropdownMenu() {
-    Array.from(document.querySelectorAll("#productListTable .dropdown-menu")).forEach(function (item) {
-        item.classList.remove("block")
-        item.classList.add("hidden")
-    });
-    Array.from(document.querySelectorAll(".dropdown-toggle")).forEach(function (item) {
-        item.classList.remove("show")
-    });
-}
-// manage dropdown-menu event removed
-function dropdownEvent1(elem, place, isRemove = null) {
-    if (isRemove) {
-        elem.forEach(function (item) {
-            item.removeEventListener('click', eventListenerDropdown1);
-        });
-    } else {
-        Array.from(elem).forEach(function (item) {
-            item.querySelectorAll(".dropdown-toggle").forEach(function (subitem) {
-                subitem.addEventListener("click", function (event) {
-                    eventListenerDropdown1(event, subitem, item, place)
-                });
-            });
-        });
-    }
-}
-function updateDropdown() {
+// // manage dropdown-menu
+// function dismissDropdownMenu() {
+//     Array.from(document.querySelectorAll("#productListTable .dropdown-menu")).forEach(function (item) {
+//         item.classList.remove("block")
+//         item.classList.add("hidden")
+//     });
+//     Array.from(document.querySelectorAll(".dropdown-toggle")).forEach(function (item) {
+//         item.classList.remove("show")
+//     });
+// }
+// // manage dropdown-menu event removed
+// function dropdownEvent1(elem, place, isRemove = null) {
+//     if (isRemove) {
+//         elem.forEach(function (item) {
+//             item.removeEventListener('click', eventListenerDropdown1);
+//         });
+//     } else {
+//         Array.from(elem).forEach(function (item) {
+//             item.querySelectorAll(".dropdown-toggle").forEach(function (subitem) {
+//                 subitem.addEventListener("click", function (event) {
+//                     eventListenerDropdown1(event, subitem, item, place)
+//                 });
+//             });
+//         });
+//     }
+// }
+// function updateDropdown() {
 
-    setTimeout(() => {
-        drawerSetting()
-        // pagination change 
-        var allElements = document.querySelectorAll('#productListTable .dropdown');
+//     setTimeout(() => {
+//         drawerSetting()
+//         // pagination change 
+//         var allElements = document.querySelectorAll('#productListTable .dropdown');
 
-        // Filter elements that do not have a click event listener
-        var elementsWithoutClickListener = Array.from(allElements).filter(function (element) {
-            return !element.onclick;
-        });
+//         // Filter elements that do not have a click event listener
+//         var elementsWithoutClickListener = Array.from(allElements).filter(function (element) {
+//             return !element.onclick;
+//         });
 
-        if (elementsWithoutClickListener) {
-            dropdownEvent1(elementsWithoutClickListener, 'bottom-start', true)
-        }
-        // end remove listeners
+//         if (elementsWithoutClickListener) {
+//             dropdownEvent1(elementsWithoutClickListener, 'bottom-start', true)
+//         }
+//         // end remove listeners
 
-        dropdownEvent1(elementsWithoutClickListener, 'bottom-start')
-    }, 250);
-}
+//         dropdownEvent1(elementsWithoutClickListener, 'bottom-start')
+//     }, 250);
+// }
 
 var productListTable = new List("productListTable", options).on("updated", function (list) {
     // noresult show or hidden
@@ -223,6 +223,6 @@ xhttp.onload = function () {
         link.addEventListener("click", updateDropdown);
     });
 }
-//jeson data file
-xhttp.open("GET", "build/json/product-list.json");
+// jeson data file
+xhttp.open("GET", "build/json/product-list2.json");
 xhttp.send();

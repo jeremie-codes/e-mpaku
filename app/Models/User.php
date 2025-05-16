@@ -43,8 +43,6 @@ class User extends Authenticatable implements ReviewRateable, Viewable
         'email_verified_at',
         'password',
         'remember_token',
-        'role',
-        'avatar',
-        'is_active'
+        'profile_photo_path'
     ];
 }

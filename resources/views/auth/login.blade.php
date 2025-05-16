@@ -5,7 +5,7 @@
 @section('content')
 
     <body
-        class="flex items-center justify-center min-h-screen px-4 py-16 bg-cover bg-auth-pattern dark:bg-auth-pattern-dark dark:text-zink-100 font-public">
+        class="flex items-center justify-center min-h-screen bg-cover bg-auth-pattern dark:bg-auth-pattern-dark dark:text-zink-100 font-public">
         <div class="mb-0 border-none shadow-none xl:w-2/3 card bg-white/70 dark:bg-zink-500/70">
             <div class="grid grid-cols-1 gap-0 lg:grid-cols-12">
                 <div class="lg:col-span-5">
