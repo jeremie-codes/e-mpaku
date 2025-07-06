@@ -201,14 +201,14 @@
                                                     </div>
                                                 </div>
                                                 <div class="xl:col-span-12">
-                                                    <label for="ref" class="inline-block mb0 text-base font-medium">Référence Member</label>
+                                                    <label for="ref" class="inline-block mb0 text-base font-medium">CIPA</label>
                                                     <input type="text" id="ref" name="ref"
                                                         class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200"
                                                         value="{{ $member->ref }}" required>
                                                 </div>
 
                                                 <div class="xl:col-span-12">
-                                                    <label for="sec_ref" class="inline-block mb0 text-base font-medium">Référence sécondaire(optionnal)</label>
+                                                    <label for="sec_ref" class="inline-block mb0 text-base font-medium">Référence(optionnal)</label>
                                                     <input type="text" id="sec_ref" name="sec_ref"
                                                         class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200"
                                                         value="{{ $member->sec_ref }}" required>
