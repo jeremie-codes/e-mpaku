@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>@yield('title') | PWHR</title>
+    <title>@yield('title') | {{ env('APP_NAME') }}</title>
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="theme-color" content="#888">
