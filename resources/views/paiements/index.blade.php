@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-    {{ __('Grid View') }}
+    {{ __('PAIEMENT') }}
 @endsection
 @section('content')
     <!-- page title -->
