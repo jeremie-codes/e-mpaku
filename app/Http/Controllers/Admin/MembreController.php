@@ -130,7 +130,7 @@ class MembreController extends Controller
         /**
      * Store a newly created resource in storage.
     */
-    public function store(Request $request)
+    public function storeApi(Request $request)
     {
         // Règles de validation communes
         $rules = [
@@ -195,11 +195,14 @@ class MembreController extends Controller
             return response()->json([
                 'success' => true, 
                 'message' => 'Membre ajouté avec succès.'
-            ]);
+            ], 500);
         
 
         } catch (\Throwable $th) {
-            return redirect()->back()->with('error', 'Erreur : ' . $th->getMessage());
+            return response()->json([
+                'success' => false, 
+                'message' => 'Erreur : ' . $th->getMessage()
+            ], 500);
         }
     }
 
