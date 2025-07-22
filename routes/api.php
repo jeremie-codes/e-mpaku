@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 Route::post('login', [RouteController::class, 'loginApi']);
 
-Route::post('users', [RouteController::class, 'all']);
+Route::get('users', [RouteController::class, 'all']);
 
 Route::middleware('auth:sanctum')->group(function () {
     // Store Membre Api
