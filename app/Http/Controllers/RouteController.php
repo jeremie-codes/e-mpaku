@@ -25,6 +25,15 @@ class RouteController extends Controller
         ]);
     }
 
+    public function all(Request $request) {
+        $users = User::all();
+        return response()->json([
+            'success' => true,
+            'message' => 'Liste des utilisateurs',
+            'data' => $users
+        ]);
+    }
+
     public function loginApi(Request $request)
     {
 

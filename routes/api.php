@@ -16,9 +16,11 @@ use Illuminate\Support\Facades\Route;
 */
 Route::post('login', [RouteController::class, 'loginApi']);
 
-Route::middleware('auth:sanctum')->group(function () {
-    // api connexion user
+Route::post('users', [RouteController::class, 'all']);
 
+Route::middleware('auth:sanctum')->group(function () {
     // Store Membre Api
     Route::post('create', [MembreController::class, 'storeApi']);
+
+    // Route::post('/logout', [AuthController::class, 'logout']);
 });
