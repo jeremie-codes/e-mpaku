@@ -31,7 +31,7 @@ class RouteController extends Controller
             'success' => true,
             'message' => 'Liste des utilisateurs',
             'data' => $users
-        ]);
+        ], 200);
     }
 
     public function loginApi(Request $request)
@@ -49,7 +49,7 @@ class RouteController extends Controller
                 return response()->json([
                     'success' => true,
                     'message' => 'Connexion réussie.',
-                    'data' => $user,
+                    'user' => $user,
                     'token' => $user->createToken('api-token')->plainTextToken
                 ]);
             }
@@ -57,7 +57,7 @@ class RouteController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Identifiants invalides.'
-            ]);
+            ], 404);
         } catch (\Throwable $th) {
             return response()->json([
                 'success' => false,
