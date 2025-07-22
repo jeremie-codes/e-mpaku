@@ -14,10 +14,10 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+Route::post('login', [RouteController::class, 'loginApi']);
 
 Route::middleware('auth:sanctum')->group(function () {
     // api connexion user
-    Route::post('login', [RouteController::class, 'loginApi']);
 
     // Store Membre Api
     Route::post('create', [MembreController::class, 'storeApi']);
