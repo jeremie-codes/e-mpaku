@@ -20,101 +20,42 @@ class MembreController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create(Request $request)
-    {
-
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-       //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
 
     /**
      * Store a newly created resource in storage.
-     */
+    */
     public function store(Request $request)
     {
+        // Règles de validation communes
+        $rules = [
+            // Step 1
+            'cipa' => 'required|string|unique:membres,cipa,' . $request->id, // ignore unique si update
+            'type_assujetti' => 'nullable|in:physique,morale',
+            'commune' => 'required|string',
 
-        // dd($request->all());
+            // Step 2
+            'nom_complet' => 'required|string',
+            'sexe' => 'nullable|in:M,F',
+            'nom_responsable' => 'required|string',
+            'date_naissance' => 'required|date',
+            'nationalite' => 'required|string',
+            'activite_principale' => 'required|string',
+            'lieu_exercice' => 'required|string',
+            'marche' => 'required|string',
+            'telephone' => 'required|string',
+            'email' => 'nullable|email',
 
-        $memberexisted = null;
-        
-        if($request->id) {
-            $memberexisted = Membre::findOrFail($request->id);
-
-            try {
-
-                // Valider les données de base
-                $validated = $request->validate([
-                    'ref' => 'required|string|max:255',
-                    'sec_ref' => 'nullable|string|max:255',
-                    'firstname' => 'required|string|max:255',
-                    'lastname' => 'nullable|string|max:255',
-                    'commune' => 'required|string|max:255',
-                    'profile-img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-                ]);
-
-                if ($memberexisted->profile_photo_path && Storage::disk('public')->exists($memberexisted->profile_photo_path)) {
-                    Storage::disk('public')->delete($memberexisted->profile_photo_path);
-                }
-
-                // Traitement de l'image si présente
-                $imagePath = null;
-                if ($request->hasFile('profile-img')) {
-                    $imagePath = $request->file('profile-img')->store('members', 'public');
-                }
-
-                // Mise à jour du membre
-                $memberexisted->update([
-                    'ref' => $validated['ref'],
-                    'sec_ref' => $validated['sec_ref'] ?? null,
-                    'firstname' => $validated['firstname'],
-                    'lastname' => $validated['lastname'] ?? null,
-                    'commune' => $validated['commune'],
-                    'profile_photo_path' => $imagePath,
-                ]);
-
-                return redirect()->back()->with('success', 'Membre mis à jour avec succès.');
-
-            } catch (\Throwable $th) {
-                return redirect()->back()->with('error', 'Erreur lors de la mise à jour: ' . $th->getMessage());
-            }
-        }
+            // Step 3
+            'nif' => 'required|string',
+            'rccm' => 'nullable|string',
+            'affiliation_syndicale' => 'nullable|in:SNVC,Autre,Aucune',
+            'possede_stand' => 'nullable|in:Oui,Non',
+            'type_bien' => 'nullable|in:Propre,Loué,Public',
+            'profile-img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ];
 
         try {
-            // Valider les données de base
-            $validated = $request->validate([
-                'ref' => 'required|string|max:255',
-                'sec_ref' => 'nullable|string|max:255',
-                'firstname' => 'required|string|max:255',
-                'lastname' => 'nullable|string|max:255',
-                'commune' => 'required|string|max:255',
-                'profile-img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            ]);
+            $validated = $request->validate($rules);
 
             // Traitement de l'image si présente
             $imagePath = null;
@@ -122,19 +63,143 @@ class MembreController extends Controller
                 $imagePath = $request->file('profile-img')->store('members', 'public');
             }
 
-            // Création du membre
-            $member = Membre::create([
-                'ref' => $validated['ref'],
-                'sec_ref' => $validated['sec_ref'] ?? null,
-                'firstname' => $validated['firstname'],
-                'lastname' => $validated['lastname'] ?? null,
+            if ($request->id) {
+                // Mise à jour d’un membre existant
+                $member = Membre::findOrFail($request->id);
+
+                // Supprimer l’ancienne image si elle existe
+                if ($member->profile_photo_path && Storage::disk('public')->exists($member->profile_photo_path)) {
+                    Storage::disk('public')->delete($member->profile_photo_path);
+                }
+
+                $member->update([
+                    'cipa' => $validated['cipa'],
+                    'type_assujetti' => $validated['type_assujetti'] ?? null,
+                    'commune' => $validated['commune'],
+                    'nom_complet' => $validated['nom_complet'],
+                    'sexe' => $validated['sexe'] ?? null,
+                    'nom_responsable' => $validated['nom_responsable'],
+                    'date_naissance' => $validated['date_naissance'],
+                    'nationalite' => $validated['nationalite'],
+                    'activite_principale' => $validated['activite_principale'],
+                    'lieu_exercice' => $validated['lieu_exercice'],
+                    'marche' => $validated['marche'],
+                    'telephone' => $validated['telephone'],
+                    'email' => $validated['email'] ?? null,
+                    'nif' => $validated['nif'],
+                    'rccm' => $validated['rccm'] ?? null,
+                    'affiliation_syndicale' => $validated['affiliation_syndicale'] ?? null,
+                    'possede_stand' => $validated['possede_stand'] ?? null,
+                    'type_bien' => $validated['type_bien'] ?? null,
+                    'profile_photo_path' => $imagePath ?? $member->profile_photo_path,
+                ]);
+
+                return redirect()->back()->with('success', 'Membre mis à jour avec succès.');
+            } else {
+                // Création d’un nouveau membre
+                Membre::create([
+                    'cipa' => $validated['cipa'],
+                    'type_assujetti' => $validated['type_assujetti'] ?? null,
+                    'commune' => $validated['commune'],
+                    'nom_complet' => $validated['nom_complet'],
+                    'sexe' => $validated['sexe'] ?? null,
+                    'nom_responsable' => $validated['nom_responsable'],
+                    'date_naissance' => $validated['date_naissance'],
+                    'nationalite' => $validated['nationalite'],
+                    'activite_principale' => $validated['activite_principale'],
+                    'lieu_exercice' => $validated['lieu_exercice'],
+                    'marche' => $validated['marche'],
+                    'telephone' => $validated['telephone'],
+                    'email' => $validated['email'] ?? null,
+                    'nif' => $validated['nif'],
+                    'rccm' => $validated['rccm'] ?? null,
+                    'affiliation_syndicale' => $validated['affiliation_syndicale'] ?? null,
+                    'possede_stand' => $validated['possede_stand'] ?? null,
+                    'type_bien' => $validated['type_bien'] ?? null,
+                    'profile_photo_path' => $imagePath,
+                ]);
+
+                return redirect()->back()->with('success', 'Membre ajouté avec succès.');
+            }
+
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', 'Erreur : ' . $th->getMessage());
+        }
+    }
+
+        /**
+     * Store a newly created resource in storage.
+    */
+    public function store(Request $request)
+    {
+        // Règles de validation communes
+        $rules = [
+            // Step 1
+            'cipa' => 'required|string|unique:membres,cipa,' . $request->id, // ignore unique si update
+            'type_assujetti' => 'nullable|in:physique,morale',
+            'commune' => 'required|string',
+
+            // Step 2
+            'nom_complet' => 'required|string',
+            'sexe' => 'nullable|in:M,F',
+            'nom_responsable' => 'required|string',
+            'date_naissance' => 'required|date',
+            'nationalite' => 'required|string',
+            'activite_principale' => 'required|string',
+            'lieu_exercice' => 'required|string',
+            'marche' => 'required|string',
+            'telephone' => 'required|string',
+            'email' => 'nullable|email',
+
+            // Step 3
+            'nif' => 'required|string',
+            'rccm' => 'nullable|string',
+            'affiliation_syndicale' => 'nullable|in:SNVC,Autre,Aucune',
+            'possede_stand' => 'nullable|in:Oui,Non',
+            'type_bien' => 'nullable|in:Propre,Loué,Public',
+            'profile-img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ];
+
+        try {
+            $validated = $request->validate($rules);
+
+            // Traitement de l'image si présente
+            $imagePath = null;
+            if ($request->hasFile('profile-img')) {
+                $imagePath = $request->file('profile-img')->store('members', 'public');
+            }
+
+            // Création d’un nouveau membre
+            Membre::create([
+                'cipa' => $validated['cipa'],
+                'type_assujetti' => $validated['type_assujetti'] ?? null,
                 'commune' => $validated['commune'],
+                'nom_complet' => $validated['nom_complet'],
+                'sexe' => $validated['sexe'] ?? null,
+                'nom_responsable' => $validated['nom_responsable'],
+                'date_naissance' => $validated['date_naissance'],
+                'nationalite' => $validated['nationalite'],
+                'activite_principale' => $validated['activite_principale'],
+                'lieu_exercice' => $validated['lieu_exercice'],
+                'marche' => $validated['marche'],
+                'telephone' => $validated['telephone'],
+                'email' => $validated['email'] ?? null,
+                'nif' => $validated['nif'],
+                'rccm' => $validated['rccm'] ?? null,
+                'affiliation_syndicale' => $validated['affiliation_syndicale'] ?? null,
+                'possede_stand' => $validated['possede_stand'] ?? null,
+                'type_bien' => $validated['type_bien'] ?? null,
                 'profile_photo_path' => $imagePath,
             ]);
 
-            return redirect()->back()->with('success', 'Membre ajouté avec succès.');
+            return response()->json([
+                'success' => true, 
+                'message' => 'Membre ajouté avec succès.'
+            ]);
+        
+
         } catch (\Throwable $th) {
-            return redirect()->back()->with('error', 'Erreur lors de l\'ajout : ' . $th->getMessage());
+            return redirect()->back()->with('error', 'Erreur : ' . $th->getMessage());
         }
     }
 
