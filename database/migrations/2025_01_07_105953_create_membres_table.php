@@ -18,17 +18,17 @@ return new class extends Migration {
             // Step 2
             $table->string('nom_complet');
             $table->enum('sexe', ['M', 'F'])->nullable();
-            $table->string('nom_responsable');
+            $table->string('nom_responsable')->nullable();
             $table->date('date_naissance');
             $table->string('nationalite');
-            $table->string('activite_principale');
-            $table->string('lieu_exercice');
-            $table->string('marche');
-            $table->string('telephone');
+            $table->string('activite_principale')->nullable();
+            $table->string('lieu_exercice')->nullable();
+            $table->string('marche')->nullable();
+            $table->string('telephone')->nullable();
             $table->string('email')->nullable();
 
             // Step 3
-            $table->string('nif');
+            $table->string('nif')->nullable();
             $table->string('rccm')->nullable();
             $table->enum('affiliation_syndicale', ['SNVC', 'Autre', 'Aucune'])->nullable();
             $table->enum('possede_stand', ['Oui', 'Non'])->nullable();
