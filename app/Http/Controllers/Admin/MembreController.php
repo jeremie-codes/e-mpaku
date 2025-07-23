@@ -136,13 +136,13 @@ class MembreController extends Controller
         $rules = [
             // Step 1
             'cipa' => 'required|string|unique:membres,cipa,' . $request->id, // ignore unique si update
-            'type_assujetti' => 'nullable|in:physique,morale',
+            'type_assujetti' => 'required|in:physique,morale',
             'commune' => 'required|string',
 
             // Step 2
             'nom_complet' => 'required|string',
             'sexe' => 'nullable|in:M,F',
-            'nom_responsable' => 'required|string',
+            'nom_responsable' => 'nullable|string',
             'date_naissance' => 'required|date',
             'nationalite' => 'required|string',
             'activite_principale' => 'required|string',
