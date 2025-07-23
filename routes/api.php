@@ -22,5 +22,5 @@ Route::middleware('auth:sanctum')->group(function () {
     // Store Membre Api
     Route::post('create', [MembreController::class, 'storeApi']);
 
-    // Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/logout', [RouteController::class, 'logout']);
 });
