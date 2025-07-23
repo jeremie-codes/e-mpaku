@@ -117,6 +117,7 @@ class MembreController extends Controller
                     'possede_stand' => $validated['possede_stand'] ?? null,
                     'type_bien' => $validated['type_bien'] ?? null,
                     'profile_photo_path' => $imagePath,
+                    'user_id' => auth()->id(), // Associer l'utilisateur connecté
                 ]);
 
                 return redirect()->back()->with('success', 'Membre ajouté avec succès.');
@@ -190,6 +191,7 @@ class MembreController extends Controller
                 'possede_stand' => $validated['possede_stand'] ?? null,
                 'type_bien' => $validated['type_bien'] ?? null,
                 'profile_photo_path' => $imagePath,
+                'user_id' => auth()->id(), // Associer l'utilisateur connecté
             ]);
 
             return response()->json([
