@@ -42,7 +42,7 @@ class MembreController extends Controller
             'activite_principale' => 'required|string',
             'lieu_exercice' => 'required|string',
             'marche' => 'required|string',
-            'telephone' => 'required|string',
+            'telephone' => 'nullable|string',
             'email' => 'nullable|string',
 
             // Step 3
