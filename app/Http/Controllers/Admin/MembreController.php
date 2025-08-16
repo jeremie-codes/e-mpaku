@@ -148,7 +148,7 @@ class MembreController extends Controller
             'nationalite' => 'required|string',
             'activite_principale' => 'required|string',
             'lieu_exercice' => 'required|string',
-            'marche' => 'required|string',
+            'marche' => 'nullable|string',
             'telephone' => 'required|string',
             'email' => 'nullable|string',
 
