@@ -148,12 +148,12 @@ class MembreController extends Controller
             'nationalite' => 'required|string',
             'activite_principale' => 'required|string',
             'lieu_exercice' => 'required|string',
-            'marche' => 'nullable|string',
+            'marche' => 'required|string',
             'telephone' => 'required|string',
             'email' => 'nullable|string',
 
             // Step 3
-            'nif' => 'required|string',
+            'nif' => 'nullable|string',
             'rccm' => 'nullable|string',
             'affiliation_syndicale' => 'nullable|in:SNVC,Autre,Aucune',
             'possede_stand' => 'nullable|in:Oui,Non',
