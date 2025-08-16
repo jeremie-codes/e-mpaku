@@ -150,7 +150,7 @@ class MembreController extends Controller
             'lieu_exercice' => 'required|string',
             'marche' => 'required|string',
             'telephone' => 'required|string',
-            'email' => 'nullable|email',
+            'email' => 'nullable|string',
 
             // Step 3
             'nif' => 'required|string',
